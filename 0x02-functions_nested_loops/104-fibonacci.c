@@ -1,61 +1,64 @@
 #include <stdio.h>
 
-void add_strings(char *num1, char *num2, char *result);
-void copy_string(char *source, char *destination);
 
-int main() {
-    char fib1[200] = "1"; // First Fibonacci number
-    char fib2[200] = "2"; // Second Fibonacci number
-    char next_fib[200]; // Variable to store the next Fibonacci number
-    int count;
+/**
+ * numLength - returns the lenth of string
+ * @num : operand number
+ * Return: number of digits
+ */
 
-    printf("%s, %s", fib1, fib2); // Print the first two Fibonacci numbers
+int numLength(int num)
+{
+	int length = 0;
 
-    for (count = 3; count <= 98; count++) {
-        add_strings(fib1, fib2, next_fib); // Calculate the next Fibonacci number
-        printf(", %s", next_fib); // Print the next Fibonacci number
+	if (!num)
+	{
+		return (1);
+	}
 
-        // Move fib2 to fib1 and next_fib to fib2 for the next iteration
-        copy_string(fib2, fib1);
-        copy_string(next_fib, fib2);
-    }
+	while (num)
+	{
+		num = num / 10;
+		length += 1;
+	}
 
-    printf("\n");
-
-    return 0;
+	return (length);
 }
+/**
+ * main - prints the first 98 fibonaci sequences
+ * Return: 0
+ */
 
-// Function to add two large numbers represented as strings
-void add_strings(char *num1, char *num2, char *result) {
-    int carry = 0;
-    int i, j, k;
+int main(void)
+{
+	unsigned long f1 = 1, f2 = 2, tmp, mx = 100000000, f1o = 0, f2o = 0, tmpo = 0;
+	short int i = 1, initial0s;
 
-    for (i = 0, j = 0; num1[i] != '\0' || num2[j] != '\0'; i++, j++) {
-        int digit1 = (num1[i] != '\0') ? (num1[i] - '0') : 0;
-        int digit2 = (num2[j] != '\0') ? (num2[j] - '0') : 0;
+	while (i <= 98)
+	{
+		if (f1o > 0)
+			printf("%lu", f1o);
+		initial0s = numLength(mx) - 1 - numLength(f1);
+		while (f1o > 0 && initial0s > 0)
+		{
+			printf("%i", 0);
+			initial0s--;
+		}
+		printf("%lu", f1);
 
-        int sum = digit1 + digit2 + carry;
-        carry = sum / 10;
-        result[i] = (sum % 10) + '0';
-    }
+		tmp = (f1 + f2) % mx;
+		tmpo = f1o + f2o + (f1 + f2) / mx;
+		f1 = f2;
+		f1o = f2o;
+		f2 = tmp;
+		f2o = tmpo;
 
-    if (carry > 0) {
-        result[i] = carry + '0';
-        i++;
-    }
-
-    result[i] = '\0';
-}
-
-// Function to copy one string to another
-void copy_string(char *source, char *destination) {
-    int i = 0;
-
-    while (source[i] != '\0') {
-        destination[i] = source[i];
-        i++;
-    }
-
-    destination[i] = '\0';
+		if (i != 98)
+			printf(", ");
+		else
+			printf("\n");
+		i++;
+	}
+	return (0);
 }
 
